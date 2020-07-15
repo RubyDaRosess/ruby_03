@@ -1,0 +1,12 @@
+GEM
+  specs:
+    dotenv (2.7.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dotenv
+
+BUNDLED WITH
+   2.1.4
