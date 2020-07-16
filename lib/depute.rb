@@ -13,5 +13,5 @@ end
 begin
   depute
 rescue StandardError => e
-  puts 'You messed up in depute!'
+  print_exception(e, 'You messed up in mairie_christmas!')
 end

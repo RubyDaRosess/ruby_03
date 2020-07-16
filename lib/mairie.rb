@@ -18,5 +18,7 @@ end
 begin
   pp mairie_christmas
 rescue StandardError => e
-  print_exception(e, 'You messed up in mairie_christmas!')
+  puts e.message
+else
+  puts 'Well Done!'
 end
