@@ -1,8 +1,8 @@
-require_relative "../lib/crypto"
+require_relative "../lib/mairie"
 
 describe "Crypto fonction" do
     it "Crypto should display an array without nil." do
-        expect(crypto.is_a? Array).to eq true
+        expect(.is_a? Array).to eq true
         expect(crypto.all? { |elem| elem.class == Hash}).to be true
     end
     it "Crypto must have string keys Bitcoin and Ethereum." do 
