@@ -12,6 +12,5 @@ end
 
 begin
   crypto
-rescue StandardError => e
-  puts 'You messed up in crypto!'
+rescue StandardError => puts 'You messed up in crypto!'
 end
