@@ -1,17 +1,19 @@
-# frozen_string_literal: true
-
 require 'nokogiri'
 require 'open-uri'
 
-def depute
-  page = Nokogiri::HTML(open('https://coinmarketcap.com/all/views/all/'))
-  tmp = page.css('/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[3]/div/table/tbody/tr')
-  crypto_name_array = (tmp.map { |tr| { tr.css('td[2]/div/a').text => tr.css('td[5]/a').text } })
-  pp crypto_name_array
+def get_mail(depute_name)
+    
 end
 
-begin
-  depute
-rescue StandardError => e
-  print_exception(e, 'You messed up in mairie_christmas!')
+def depute
+    page = Nokogiri::HTML(URI.open('http://www2.assemblee-nationale.fr/deputes/liste/tableau'))
+    tmp = page.css('//table/tbody/tr')
+    depute_name = tmp.map {|tr|   { tr.css('td[1]/a').text.delete_prefix("Mme ").delete_prefix("M. ") => tr.css('td[1]/a/@href').text}}
+    depute_name.map do |name|
+        lien2 = "http://www2.assemblee-nationale.fr#{name}"
+        pp lien2
+    end
+    get_mail(depute_name)
 end
+
+depute
