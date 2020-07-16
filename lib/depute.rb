@@ -1,19 +1,37 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'open-uri'
 
-def get_mail(depute_name)
-    
+def get_email(x)
+  lien = x.css('td[1]/a/@href').text
+  page = Nokogiri::HTML(URI.open("http://www2.assemblee-nationale.fr#{lien}"))
+  email = page.css('.deputes-liste-attributs > dd:nth-child(8) > ul:nth-child(1) > li:nth-child(2) > a:nth-child(1)').text
 end
 
-def depute
-    page = Nokogiri::HTML(URI.open('http://www2.assemblee-nationale.fr/deputes/liste/tableau'))
-    tmp = page.css('//table/tbody/tr')
-    depute_name = tmp.map {|tr|   { tr.css('td[1]/a').text.delete_prefix("Mme ").delete_prefix("M. ") => tr.css('td[1]/a/@href').text}}
-    depute_name.map do |name|
-        lien2 = "http://www2.assemblee-nationale.fr#{name}"
-        pp lien2
-    end
-    get_mail(depute_name)
+def get_first(x)
+  name = x.css('td[1]/a').text.delete_prefix('Mme ').delete_prefix('M. ').split.first
 end
 
-depute
+def get_last(x)
+  name = x.css('td[1]/a').text.delete_prefix('Mme ').delete_prefix('M. ').split.last
+end
+
+def debuty
+  pages = Nokogiri::HTML(URI.open('http://www2.assemblee-nationale.fr/deputes/liste/tableau'))
+  tmp = pages.css('//table/tbody/tr')
+  debutyname = tmp[0..1].map { |x| { 'first_name' => get_first(x), 'last_name' => get_last(x), 'email' => get_email(x) } }
+end
+
+begin
+  pp debuty
+rescue StandardError => e
+  puts 'You messed up in debuty'
+end
+begin
+  pp debuty
+rescue StandardError => e
+  puts e.message
+else
+  puts 'Well Done!'
+end
